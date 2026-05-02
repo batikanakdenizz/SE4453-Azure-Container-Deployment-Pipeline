@@ -1,6 +1,6 @@
 # SE4453 — Azure Hello App
 
-Flask app with a `/hello` endpoint that connects to **Azure Database for PostgreSQL Flexible Server** using credentials pulled from **Azure Key Vault** via **Managed Identity**. Deployed on **Azure App Service** as a Docker container via **Azure Container Registry**.
+Flask app with a `/hello` endpoint that connects to **Azure Database for PostgreSQL Flexible Server** using credentials pulled from **Azure Key Vault** via **Managed Identity**. Deployed on **Azure App Service** via local git push to `main` branch.
 
 ## Architecture
 
@@ -9,7 +9,7 @@ Client ──► App Service (Docker container)
                 │
                 ├── Managed Identity ──► Key Vault ──► db-host, db-name, db-user, db-password
                 │
-                └── psycopg2 ──► PostgreSQL Flexible Server (private, via VM SSH tunnel)
+                └── psycopg3 ──► PostgreSQL Flexible Server (private, via VM SSH tunnel)
 ```
 
 ## Project structure
@@ -22,7 +22,7 @@ Client ──► App Service (Docker container)
 │       ├── __init__.py      # blueprint registration
 │       └── health.py        # /hello endpoint
 ├── core/
-│   ├── db.py                # psycopg2 connection via Key Vault secrets
+│   ├── db.py                # psycopg3 connection via Key Vault secrets
 │   └── keyvault.py          # DefaultAzureCredential Key Vault client
 ├── tests/
 │   ├── conftest.py
