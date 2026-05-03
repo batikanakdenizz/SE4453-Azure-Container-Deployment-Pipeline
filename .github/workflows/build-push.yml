@@ -1,0 +1,39 @@
+name: Build Docker Image and Push to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout master'
+        uses: actions/checkout@v2
+
+      - name: 'Sign in to Azure'
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: 'Build & Push to ACR'
+        uses: azure/docker-login@v1
+        with:
+          login-server: acrbatikanzeynep.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - run: |
+          docker build . -t acrbatikanzeynep.azurecr.io/flask-app:${{ github.sha }}
+          docker push acrbatikanzeynep.azurecr.io/flask-app:${{ github.sha }}
+
+      - name: 'Deploy from ACR to App Service'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'finalProjectApp'
+          images: 'acrbatikanzeynep.azurecr.io/flask-app:${{ github.sha }}'
+
+      - run: |
+          az logout
