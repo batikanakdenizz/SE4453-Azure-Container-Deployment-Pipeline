@@ -32,7 +32,7 @@ jobs:
       - name: 'Deploy from ACR to App Service'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'finalProjectApp'
+          app-name: 'apiapp'
           images: 'acrbatikanzeynep.azurecr.io/flask-app:${{ github.sha }}'
 
       - run: |
