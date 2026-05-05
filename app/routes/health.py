@@ -27,7 +27,7 @@ def hello():
         logger.info("Database query successful")
         return jsonify({
             "status": "ok",
-            "message": "Hello from Azure App Service!",
+            "message": "Hello from Azure App Service! FİNAL PROJECT WORKS AS EXPECTED!",
             "database": {
                 "connected": True,
                 "version": pg_version,
